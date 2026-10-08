@@ -1,53 +1,74 @@
+
 ---
-import Section from '../components/layout/Section.astro';
-import Hero from '../components/content/Hero.astro';
-import WritingPreview from '../components/content/WritingPreview.astro';
-import Perspective from '../components/content/Perspective.astro';
-import WritingExplorer from '../components/content/WritingExplorer.astro';
-import AuthorPreview from '../components/content/AuthorPreview.astro';
-import Layout from '../layouts/MainLayout.astro';
+const pageTitle = 'John R. White | Coming Soon';
+const pageDescription = 'A space for reflection, discovery, and the journey inward.';
 ---
 
-<Layout>
-	<Hero
-		title="Exploring the unseen influences of everyday life."
-		subtitle="Reflections on the quiet forces that shape how we think, work, and live."
-	/>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={pageDescription} />
+    <title>{pageTitle}</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Georgia, 'Times New Roman', serif;
+      }
 
-	<Section
-		spacingTop="none"
-		spacingBottom="none"
-		width="wide"
-		background="default"
-		>
-		<WritingPreview />
-	</Section>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #101c1b;
+        color: #f3f0e8;
+      }
 
-	<Section
-		spacingTop="none"
-		spacingBottom="none"
-		width="wide"
-		background="dark"
-		>
-		<Perspective />
-	</Section>
+      main {
+        max-width: 650px;
+        padding: 2rem;
+        text-align: center;
+      }
 
-	<Section
-		spacingTop="2xl"
-		spacingBottom="2xl"
-		width="wide"
-		background="surface"
-		borderBottom
-	>
-		<WritingExplorer />
-	</Section>
+      h1 {
+        font-size: clamp(2.5rem, 7vw, 4rem);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        margin-bottom: 1.5rem;
+      }
 
-	<Section
-		spacingTop="2xl"
-		spacingBottom="2xl"
-		width="wide"
-		background="default"
-	>
-		<AuthorPreview />
-	</Section>
-</Layout>
+      p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: #bac8bf;
+      }
+
+      .divider {
+        width: 64px;
+        height: 1px;
+        margin: 2rem auto;
+        background: #78988a;
+      }
+
+      .status {
+        font-family: system-ui, sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #91a99b;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>John R. White</h1>
+      <p>A space for reflection, discovery, and the journey inward.</p>
+      <div class="divider" aria-hidden="true"></div>
+      <div class="status">This space is taking shape</div>
+    </main>
+  </body>
+</html>

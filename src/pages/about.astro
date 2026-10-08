@@ -1,14 +1,20 @@
+
 ---
-import NarrowPageLayout from "../layouts/NarrowPageLayout.astro";
+const destination = '/';
 ---
 
-<NarrowPageLayout
-	title="About | [page_name]"
-	description="[description]"
->
-
-		<h1>Title</h1>
-
-		<p>text</p>
-
-</NarrowPageLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <link rel="canonical" href="https://johnrwhite.ca/" />
+    <title>Redirecting | John R. White</title>
+  </head>
+  <body>
+    <p>
+      Redirecting to <a href={destination}>the homepage</a>...
+    </p>
+  </body>
+</html>

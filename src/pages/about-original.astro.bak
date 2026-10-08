@@ -1,0 +1,14 @@
+---
+import NarrowPageLayout from "../layouts/NarrowPageLayout.astro";
+---
+
+<NarrowPageLayout
+	title="About | [page_name]"
+	description="[description]"
+>
+
+		<h1>Title</h1>
+
+		<p>text</p>
+
+</NarrowPageLayout>
