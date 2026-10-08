@@ -1,0 +1,120 @@
+---
+import { primaryNavigation } from "../../data/navigation";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<div class="site-footer__main">
+			<div class="site-footer__identity">
+				<a class="site-footer__brand" href="/">
+					johnwhite.ca
+				</a>
+
+				<p class="site-footer__statement">
+					Exploring the unseen influences of everyday life.
+				</p>
+			</div>
+
+			<nav class="site-footer__nav" aria-label="Footer navigation">
+				{
+					primaryNavigation.map((item) => (
+						<a href={item.href}>
+							{item.label}
+						</a>
+					))
+				}
+			</nav>
+		</div>
+
+		<div class="site-footer__bottom">
+			<p>
+				© {currentYear} johnwhite.ca
+			</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: var(--color-footer);
+		color: var(--color-text-on-footer);
+	}
+
+	.site-footer__inner {
+		width: min(
+			calc(100% - (var(--page-gutter) * 2)),
+			var(--content-width)
+		);
+		margin-inline: auto;
+		padding-block: var(--space-xl);
+	}
+
+	.site-footer__main {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-xl);
+		padding-bottom: var(--space-xl);
+	}
+
+	.site-footer__identity {
+		max-width: 28rem;
+	}
+
+	.site-footer__brand {
+		color: var(--color-text-on-footer);
+		font-family: var(--font-heading);
+		font-size: var(--text-xl);
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+	}
+
+	.site-footer__statement {
+		max-width: 24rem;
+		margin: var(--space-md) 0 0;
+		color: var(--color-text-muted-on-footer);
+		font-size: var(--text-base);
+		line-height: 1.6;
+	}
+
+	.site-footer__nav {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-lg);
+	}
+
+	.site-footer__nav a {
+		color: var(--color-text-on-footer);
+		font-weight: 700;
+		text-decoration: none;
+		text-underline-offset: 0.3em;
+	}
+
+	.site-footer__nav a:hover,
+	.site-footer__nav a:focus-visible {
+		text-decoration: underline;
+	}
+
+	.site-footer__bottom {
+		padding-top: var(--space-lg);
+		border-top: 1px solid var(--color-border-on-footer);
+	}
+
+	.site-footer__bottom p {
+		margin: 0;
+		color: var(--color-text-muted-on-footer);
+		font-size: var(--text-sm);
+	}
+
+	@media (max-width: 700px) {
+		.site-footer__main {
+			flex-direction: column;
+		}
+
+		.site-footer__nav {
+			flex-wrap: wrap;
+		}
+	}
+</style>

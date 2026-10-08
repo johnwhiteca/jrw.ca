@@ -1,0 +1,367 @@
+---
+import { getCollection } from 'astro:content';
+
+/*
+ * This is the manually managed homepage topic list.
+ *
+ * Each value must exactly match the corresponding tag used
+ * in post frontmatter.
+ */
+const topics = [
+	{
+		label: 'Featured',
+		value: 'featured',
+	},
+	{
+		label: 'Leadership',
+		value: 'Leadership',
+	},
+	{
+		label: 'Technology',
+		value: 'Technology',
+	},
+	{
+		label: 'Communication',
+		value: 'Communication',
+	},
+	{
+		label: 'Perspective',
+		value: 'Perspective',
+	},
+];
+
+const posts = await getCollection(
+	'writing',
+	({ data }) => data.draft !== true,
+);
+
+posts.sort(
+	(a, b) =>
+		b.data.publishedDate.valueOf() -
+		a.data.publishedDate.valueOf(),
+);
+
+/*
+ * Only include posts that can appear under at least one
+ * configured homepage topic.
+ */
+const configuredTags = topics
+	.filter((topic) => topic.value !== 'featured')
+	.map((topic) => topic.value);
+
+const homepagePosts = posts.filter((post) => {
+	const isFeatured = post.data.featured === true;
+
+	const hasConfiguredTag = post.data.tags.some((tag) =>
+		configuredTags.includes(tag),
+	);
+
+	return isFeatured || hasConfiguredTag;
+});
+---
+<div class="writing-explorer" data-writing-explorer>
+	<header class="writing-explorer__header">
+		<div>
+			<p class="writing-explorer__eyebrow">Explore by topic</p>
+
+			<h2 class="writing-explorer__title">
+				More perspectives
+			</h2>
+		</div>
+
+		<a class="writing-explorer__all" href="/writing/">
+			View all writing
+		</a>
+	</header>
+
+	<nav
+		class="writing-explorer__topics"
+		aria-label="Filter writing by topic"
+	>
+		{
+			topics.map((topic, index) => (
+				<button
+					class="writing-explorer__topic"
+					type="button"
+					data-topic={topic.value}
+					aria-pressed={index === 0 ? 'true' : 'false'}
+				>
+					{topic.label}
+				</button>
+			))
+		}
+	</nav>
+
+	<div
+		class="writing-explorer__grid"
+		aria-live="polite"
+		data-writing-grid
+	>
+		{
+			homepagePosts.map((post) => (
+				<article
+					class="writing-explorer__card"
+					data-writing-card
+					data-featured={post.data.featured ? 'true' : 'false'}
+					data-tags={JSON.stringify(post.data.tags)}
+				>
+					<a
+						class="writing-explorer__card-link"
+						href={`/writing/${post.id}/`}
+					>
+						<p class="writing-explorer__date">
+							{post.data.publishedDate.toLocaleDateString(
+								'en-CA',
+								{
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+								},
+							)}
+						</p>
+
+						<h3 class="writing-explorer__card-title">
+							{post.data.title}
+						</h3>
+
+						<p class="writing-explorer__description">
+							{post.data.description}
+						</p>
+
+						<span
+							class="writing-explorer__read"
+							aria-hidden="true"
+						>
+							Read article →
+						</span>
+					</a>
+				</article>
+			))
+		}
+	</div>
+
+	<p class="writing-explorer__empty" data-writing-empty hidden>
+		No published articles are currently available for this topic.
+	</p>
+</div>
+
+<script>
+	const explorers = document.querySelectorAll(
+		'[data-writing-explorer]',
+	);
+
+	explorers.forEach((explorer) => {
+		const topicButtons = Array.from(
+			explorer.querySelectorAll('[data-topic]'),
+		);
+
+		const cards = Array.from(
+			explorer.querySelectorAll('[data-writing-card]'),
+		);
+
+		const emptyMessage = explorer.querySelector(
+			'[data-writing-empty]',
+		);
+
+		const displayTopic = (selectedTopic) => {
+			let visibleCount = 0;
+
+			cards.forEach((card) => {
+				const isFeatured =
+					card.dataset.featured === 'true';
+
+				const tags = JSON.parse(
+					card.dataset.tags ?? '[]',
+				);
+
+				const matchesTopic =
+					selectedTopic === 'featured'
+						? isFeatured
+						: tags.includes(selectedTopic);
+
+				const shouldDisplay =
+					matchesTopic && visibleCount < 6;
+
+				card.hidden = !shouldDisplay;
+
+				if (shouldDisplay) {
+					visibleCount += 1;
+				}
+			});
+
+			if (emptyMessage) {
+				emptyMessage.hidden = visibleCount !== 0;
+			}
+		};
+
+		topicButtons.forEach((button) => {
+			button.addEventListener('click', () => {
+				const selectedTopic = button.dataset.topic;
+
+				if (!selectedTopic) {
+					return;
+				}
+
+				topicButtons.forEach((topicButton) => {
+					topicButton.setAttribute(
+						'aria-pressed',
+						topicButton === button
+							? 'true'
+							: 'false',
+					);
+				});
+
+				displayTopic(selectedTopic);
+			});
+		});
+
+		displayTopic('featured');
+	});
+</script>
+
+<style>
+	.writing-explorer {
+		display: grid;
+		gap: var(--space-xl);
+	}
+
+	.writing-explorer__header {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: var(--space-lg);
+	}
+
+	.writing-explorer__eyebrow {
+		margin: 0 0 var(--space-xs);
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.writing-explorer__title {
+		margin: 0;
+	}
+
+	.writing-explorer__all {
+		flex-shrink: 0;
+		color: var(--color-text);
+		font-weight: 600;
+		text-underline-offset: 0.25em;
+	}
+
+	.writing-explorer__topics {
+		display: flex;
+		gap: var(--space-sm);
+		overflow-x: auto;
+		padding-bottom: var(--space-xs);
+		scrollbar-width: thin;
+	}
+
+	.writing-explorer__topic {
+		flex: 0 0 auto;
+		padding: 0.65rem 1rem;
+		border: 1px solid var(--color-border);
+		background: transparent;
+		color: var(--color-text-muted);
+		font: inherit;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.writing-explorer__topic:hover {
+		color: var(--color-text);
+		border-color: currentColor;
+	}
+
+	.writing-explorer__topic[aria-pressed='true'] {
+		background: var(--color-text);
+		border-color: var(--color-text);
+		color: var(--color-background);
+	}
+
+	.writing-explorer__topic:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 3px;
+	}
+
+	.writing-explorer__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-lg);
+	}
+
+	.writing-explorer__card {
+		min-width: 0;
+		border: 1px solid var(--color-border);
+		background: var(--color-card-text);
+	}
+
+	.writing-explorer__card[hidden] {
+		display: none;
+	}
+
+	.writing-explorer__card-link {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: var(--space-lg);
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.writing-explorer__card:hover {
+		border-color: var(--color-text-muted);
+	}
+
+	.writing-explorer__date {
+		margin: 0 0 var(--space-sm);
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.writing-explorer__card-title {
+		margin: 0;
+		font-size: var(--text-lg);
+		line-height: 1.25;
+	}
+
+	.writing-explorer__description {
+		margin: var(--space-md) 0 0;
+		color: var(--color-text-muted);
+	}
+
+	.writing-explorer__read {
+		margin-top: auto;
+		padding-top: var(--space-lg);
+		font-size: var(--text-sm);
+		font-weight: 600;
+	}
+
+	.writing-explorer__empty {
+		margin: 0;
+		padding-block: var(--space-lg);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	@media (max-width: 52rem) {
+		.writing-explorer__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 36rem) {
+		.writing-explorer__header {
+			align-items: start;
+			flex-direction: column;
+		}
+
+		.writing-explorer__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

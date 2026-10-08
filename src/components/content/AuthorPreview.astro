@@ -1,0 +1,103 @@
+---
+const author = {
+	name: "John White",
+	image: "/images/author/john-white-placeholder.jpg",
+	href: "/about",
+	body: [
+		"I'm John White, an IT leader, writer, and lifelong student of the patterns that shape people, technology, and the way we navigate complexity.",
+		"Through my writing, I explore the connections between systems, leadership, communication, and the quieter influences that shape everyday life.",
+	],
+};
+---
+
+<div class="author-preview">
+	<div class="author-preview__content">
+		<h2 class="author-preview__title">
+			{author.name}
+		</h2>
+
+		{
+			author.body.map((paragraph) => (
+				<p class="author-preview__text">
+					{paragraph}
+				</p>
+			))
+		}
+
+		<a class="author-preview__link" href={author.href}>
+			Learn more about John
+		</a>
+	</div>
+
+	<div class="author-preview__image-wrap">
+		<img
+			class="author-preview__image"
+			src={author.image}
+			alt="John White"
+		/>
+	</div>
+</div>
+
+<style>
+	.author-preview {
+		display: grid;
+		grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr);
+		gap: var(--space-xl);
+		align-items: center;
+	}
+
+	.author-preview__content {
+		max-width: 42rem;
+	}
+
+	.author-preview__title {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl));
+		line-height: 1.1;
+		color: var(--color-text);
+	}
+
+	.author-preview__text {
+		margin: var(--space-md) 0 0;
+		font-size: var(--text-lg);
+		line-height: 1.6;
+		color: var(--color-text-muted);
+	}
+
+	.author-preview__link {
+		display: inline-block;
+		margin-top: var(--space-lg);
+		color: var(--color-text);
+		font-weight: 700;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.25em;
+	}
+
+	.author-preview__image-wrap {
+		width: 100%;
+	}
+
+	.author-preview__image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		background: var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	@media (max-width: 800px) {
+		.author-preview {
+			grid-template-columns: 1fr;
+		}
+
+		.author-preview__image-wrap {
+			max-width: 28rem;
+		}
+
+		.author-preview__image {
+			aspect-ratio: 4 / 3;
+		}
+	}
+</style>

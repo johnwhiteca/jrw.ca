@@ -1,0 +1,46 @@
+---
+const statement =
+	"Technology serves people best when it reduces friction, creates clarity, and makes meaningful work easier.";
+---
+
+<div class="perspective">
+	<div class="perspective__inner">
+		<p class="perspective__statement">
+			<span class="perspective__quote" aria-hidden="true">“</span>
+			{statement}
+			<span class="perspective__quote" aria-hidden="true">”</span>
+		</p>
+	</div>
+</div>
+
+<style>
+	.perspective {
+		width: 100vw;
+		margin-left: calc(50% - 50vw);
+		padding-block: var(--space-2xl);
+		background: var(--color-surface-light);
+		color: var(--color-text);
+	}
+
+	.perspective__inner {
+		width: min(
+			calc(100% - (var(--page-gutter) * 2)),
+			var(--content-width)
+		);
+		margin-inline: auto;
+	}
+
+	.perspective__statement {
+		max-width: 52rem;
+		margin: 0 auto;
+		font-family: var(--font-heading);
+		font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
+		font-weight: 600;
+		line-height: 1.45;
+		text-align: center;
+	}
+
+	.perspective__quote {
+		color: rgb(255 255 255 / 0.55);
+	}
+</style>

@@ -1,0 +1,112 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'writing'>;
+}
+
+const { post } = Astro.props;
+
+const publishedDate = post.data.publishedDate.toLocaleDateString('en-CA', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+
+const updatedDate = post.data.updatedDate?.toLocaleDateString('en-CA', {
+	year: 'numeric',
+	month: 'long',
+	day: 'numeric',
+});
+---
+
+<article class="post">
+	<header class="post__header">
+
+
+		<h1>{post.data.title}</h1>
+
+        <p class="post__date">
+			Published {publishedDate}
+		</p>
+
+		<p class="post__description">
+			{post.data.description}
+		</p>
+
+		{
+			updatedDate && (
+				<p class="post__updated">
+					Updated {updatedDate}
+				</p>
+			)
+		}
+	</header>
+
+	<img
+		class="post__image"
+		src={post.data.image}
+		alt={post.data.imageAlt}
+		width="800"
+		height="450"
+	/>
+
+	<div class="post__content">
+		<slot />
+	</div>
+</article>
+
+<style>
+	.post {
+		min-width: 0;
+	}
+
+	.post__header {
+		margin-bottom: 3rem;
+	}
+
+	.post__date,
+	.post__updated {
+		color: var(--color-text-muted);
+	}
+
+	.post__date {
+		margin-bottom: 1rem;
+	}
+
+	.post__updated {
+		margin-top: 1rem;
+	}
+
+	.post__description {
+		font-size: var(--text-lg);
+		color: var(--color-text-muted);
+	}
+
+	.post__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
+		margin-bottom: 3rem;
+		object-fit: cover;
+	}
+
+	.post__content :global(h2) {
+		margin-top: 2.5rem;
+	}
+
+	.post__content :global(h3) {
+		margin-top: 2rem;
+	}
+
+	.post__content :global(p) {
+		margin-top: 1.25rem;
+	}
+
+	.post__content :global(ul),
+	.post__content :global(ol) {
+		margin-top: 1.25rem;
+		padding-left: 1.5rem;
+	}
+</style>

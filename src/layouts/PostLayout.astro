@@ -1,0 +1,53 @@
+---
+import PageLayout from './PageLayout.astro';
+import Section from '../components/layout/Section.astro';
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<PageLayout
+	title={title}
+	description={description}
+>
+	<Section width="wide">
+		<div class="post-layout">
+			<div class="post-layout__content">
+				<slot />
+			</div>
+
+			<div class="post-layout__sidebar">
+				<slot name="sidebar" />
+			</div>
+		</div>
+	</Section>
+</PageLayout>
+
+<style>
+	.post-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 7fr) minmax(16rem, 3fr);
+		gap: clamp(2rem, 5vw, 5rem);
+		align-items: start;
+		padding-block: 4rem;
+	}
+
+	.post-layout__content,
+	.post-layout__sidebar {
+		min-width: 0;
+	}
+
+	@media (max-width: 52rem) {
+		.post-layout {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.post-layout__sidebar {
+			margin-top: 1rem;
+		}
+	}
+</style>

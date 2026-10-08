@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'writing'>;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="writing-card">
+	<p class="writing-card__date">
+		{post.data.publishedDate.toLocaleDateString('en-CA', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		})}
+	</p>
+
+	<h2 class="writing-card__title">
+		<a href={`/writing/${post.id}/`}>
+			{post.data.title}
+		</a>
+	</h2>
+
+	<p class="writing-card__description">
+		{post.data.description}
+	</p>
+</article>
+
+<style>
+	.writing-card__date {
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	.writing-card__title {
+		margin-top: 0.5rem;
+	}
+
+	.writing-card__title a {
+		color: inherit;
+	}
+
+	.writing-card__description {
+		margin-top: 0.75rem;
+	}
+</style>

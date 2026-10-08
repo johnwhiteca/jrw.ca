@@ -1,0 +1,116 @@
+:root {
+	/*
+	 * The Materials of the Path
+	 *
+	 * These are the foundational colours of johnwhite.ca.
+	 * Components should generally use the semantic aliases below
+	 * rather than referencing these materials directly.
+	 */
+
+	--material-paper: #f6f3ec;
+	--material-paper-bright: #fbfaf7;
+	--material-stone: #ebe9e5;
+	--material-mist: #d8d3ca;
+
+	--material-bark-deep: #2d2a24;
+	--material-bark: #4d473e;
+	--material-lichen: #746f65;
+
+	--material-moss: #68705a;
+	--material-moss-deep: #505846;
+
+	--material-golden-light: #b4935d;
+
+	--material-forest-shadow: #34372f;
+	--material-forest-deep: #252923;
+
+
+	/*
+	 * Semantic colour tokens
+	 */
+
+	/* Page and section backgrounds */
+	--color-background: var(--material-paper);
+	--color-surface: var(--material-paper-bright);
+	--color-surface-light: var(--material-stone);
+	--color-surface-dark: var(--material-forest-shadow);
+	--color-card: var(--material-paper-bright);
+
+	--color-card-media: var(--material-paper-bright);
+	--color-card-text: var(--material-paper);
+
+	/* Typography */
+	--color-heading: var(--material-bark-deep);
+	--color-heading-soft: var(--material-bark);
+	--color-text: var(--material-bark);
+	--color-text-muted: var(--material-lichen);
+
+	/* Lines and boundaries */
+	--color-border: var(--material-mist);
+	--color-border-strong: #c7c0b5;
+
+	/* Links and interaction */
+	--color-link: var(--material-moss-deep);
+	--color-link-hover: var(--material-moss);
+	--color-focus: var(--material-moss);
+
+	/* Selective emphasis */
+	--color-accent: var(--material-moss);
+	--color-accent-warm: var(--material-golden-light);
+
+	/* Dark surfaces */
+	--color-dark: var(--material-forest-deep);
+	--color-text-on-dark: var(--material-paper-bright);
+	--color-text-muted-on-dark: rgb(251 250 247 / 0.72);
+
+	/* Footer */
+	--color-footer: var(--material-forest-deep);
+	--color-text-on-footer: var(--material-paper-bright);
+	--color-text-muted-on-footer: rgb(251 250 247 / 0.7);
+	--color-border-on-footer: rgb(251 250 247 / 0.18);
+
+
+	/* Typography */
+	--font-body: Arial, Helvetica, sans-serif;
+	--font-heading: Arial, Helvetica, sans-serif;
+
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.25rem;
+	--text-xl: 1.5rem;
+	--text-2xl: 2rem;
+	--text-3xl: 3rem;
+	--text-4xl: 4rem;
+
+
+	/* Spacing */
+	--space-xs: 0.5rem;
+	--space-sm: 1rem;
+	--space-md: 1.5rem;
+	--space-lg: 2.5rem;
+	--space-xl: 4rem;
+	--space-2xl: 6rem;
+
+
+	/* Layout */
+	--content-width: 75rem;
+	--content-width-narrow: 50rem;
+	--page-gutter: 1.5rem;
+
+
+	/* Borders */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 1rem;
+	--radius-pill: 999px;
+
+
+	/* Effects */
+	--shadow-sm: 0 0.125rem 0.5rem rgb(45 42 36 / 0.08);
+	--shadow-md: 0 0.5rem 1.5rem rgb(45 42 36 / 0.12);
+
+
+	/* Motion */
+	--transition-fast: 150ms ease;
+	--transition-base: 250ms ease;
+}

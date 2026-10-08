@@ -1,0 +1,112 @@
+---
+import { primaryNavigation } from "../../data/navigation";
+const currentPath = Astro.url.pathname;
+---
+
+<nav
+	id="mobile-navigation"
+	class="mobile-nav"
+	aria-label="Mobile navigation"
+>
+	<div class="container mobile-nav__inner">
+		<ul class="mobile-nav__list">
+			{
+				primaryNavigation.map((item) => (
+					<li>
+						<a
+							class:list={[
+								"mobile-nav__link",
+								{
+									"mobile-nav__link--active":
+										currentPath === item.href,
+								},
+							]}
+							href={item.href}
+							aria-current={
+								currentPath === item.href ? "page" : undefined
+							}
+						>
+							{item.label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</nav>
+
+<style>
+.mobile-nav {
+	display: none;
+}
+
+.mobile-nav.is-open {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	transform: translateY(0);
+	transition:
+		opacity 180ms ease-out,
+		transform 180ms ease-out,
+		visibility 0s linear 0s;
+}
+
+	.mobile-nav__list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.mobile-nav__link {
+		display: block;
+		padding: var(--space-md) 0;
+		color: var(--color-text);
+		font-weight: 600;
+		text-decoration: none;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.mobile-nav__link--active {
+		text-decoration: underline;
+		text-underline-offset: 0.35em;
+	}
+
+	.mobile-nav__link:hover,
+	.mobile-nav__link:focus-visible {
+		text-decoration: underline;
+		text-underline-offset: 0.35em;
+	}
+
+@media (max-width: 48rem) {
+	.mobile-nav {
+		display: block;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		background: var(--color-background);
+		border-bottom: 1px solid var(--color-border);
+		box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 0.08);
+
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateY(-0.25rem);
+		transition:
+			opacity 180ms ease-out,
+			transform 180ms ease-out,
+			visibility 0s linear 180ms;
+	}
+
+	.mobile-nav.is-open {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+		transform: translateY(0);
+		transition:
+			opacity 180ms ease-out,
+			transform 180ms ease-out,
+			visibility 0s linear 0s;
+	}
+}
+</style>

@@ -1,0 +1,23 @@
+---
+import PageLayout from './PageLayout.astro';
+import Section from '../components/layout/Section.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = 'John White',
+	description = 'John White',
+} = Astro.props;
+---
+
+<PageLayout
+	title={title}
+	description={description}
+>
+	<Section width="narrow">
+		<slot />
+	</Section>
+</PageLayout>

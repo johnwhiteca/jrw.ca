@@ -1,0 +1,19 @@
+{
+  "name": "johnwhite.ca",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.118",
+    "astro": "^7.1.1",
+    "astro-icon": "^1.1.5"
+  }
+}

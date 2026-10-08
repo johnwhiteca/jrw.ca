@@ -1,0 +1,54 @@
+---
+interface Props {
+	type?: "intro" | "notice" | "event";
+	title?: string;
+	message: string;
+}
+
+const {
+	type = "intro",
+	title,
+	message,
+}: Props = Astro.props;
+---
+<section class={`announcement announcement--${type}`}>
+	<div class="announcement__container padding-top-lg padding-bottom-lg">
+		{
+			title && (
+				<h2 class="announcement__title">
+					{title}
+				</h2>
+			)
+		}
+
+		<p class="announcement__message">
+			{message}
+		</p>
+	</div>
+</section>
+
+<style>
+	.announcement {
+		text-align: center;
+	}
+
+	.announcement__title {
+		margin: 0;
+		font-size: 1.75rem;
+	}
+
+	.announcement__message {
+		max-width: 60rem;
+		margin: 1rem auto 0;
+		font-size: 1.05rem;
+		line-height: 1.6;
+	}
+
+	.announcement--notice {
+		background: var(--color-surface);
+	}
+
+	.announcement--event {
+		background: var(--color-surface);
+	}
+</style>

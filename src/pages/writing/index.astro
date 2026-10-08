@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import NarrowPageLayout from '../../layouts/NarrowPageLayout.astro';
+import WritingCard from '../../components/cards/WritingCard.astro';
+
+const posts = await getCollection(
+	'writing',
+	({ data }) => data.draft !== true,
+);
+
+posts.sort(
+	(a, b) =>
+		b.data.publishedDate.valueOf() -
+		a.data.publishedDate.valueOf(),
+);
+---
+
+<NarrowPageLayout
+	title="Writing"
+	description="Articles exploring technology, leadership, communication, and the unseen influences of everyday life."
+>
+	<header class="writing-header">
+		<h1>Writing</h1>
+
+		<p>
+			Articles exploring technology, leadership, communication,
+			and the unseen influences of everyday life.
+		</p>
+	</header>
+
+	<div class="writing-list">
+	{
+            posts.map((post) => (
+                <WritingCard post={post} />
+            ))
+        }
+    </div>
+
+</NarrowPageLayout>
+
+<style>
+	.writing-header {
+		margin-bottom: 3rem;
+	}
+
+	.writing-header p {
+		margin-top: 1rem;
+	}
+
+	.writing-list {
+		display: grid;
+		gap: 2.5rem;
+	}
+
+</style>

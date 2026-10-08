@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection(
+	'writing',
+	({ data }) => data.draft !== true,
+);
+
+posts.sort(
+	(a, b) =>
+		b.data.publishedDate.valueOf() -
+		a.data.publishedDate.valueOf(),
+);
+
+
+const previewPosts = posts.slice(0, 4).map((post) => ({
+	title: post.data.title,
+	excerpt: post.data.description,
+	image: post.data.image,
+	href: `/writing/${post.id}/`,
+}));
+
+const featuredPost = previewPosts[0];
+const recentPosts = previewPosts.slice(1);
+---
+
+{
+	featuredPost && (
+		<div class="writing-preview">
+
+	<article class="writing-preview__featured">
+		<a class="writing-preview__image-link" href={featuredPost.href}>
+			<img
+				class="writing-preview__featured-image"
+				src={featuredPost.image}
+				alt=""
+			/>
+		</a>
+
+		<div class="writing-preview__featured-content">
+			<h2 class="writing-preview__featured-title">
+				<a href={featuredPost.href}>
+					{featuredPost.title}
+				</a>
+			</h2>
+
+			<p class="writing-preview__featured-excerpt">
+				{featuredPost.excerpt}
+			</p>
+		</div>
+	</article>
+
+	<div class="writing-preview__grid">
+		{
+			recentPosts.map((post) => (
+				<article class="writing-preview__card">
+					<h3 class="writing-preview__card-title">
+						<a href={post.href}>
+							{post.title}
+						</a>
+					</h3>
+
+					<a class="writing-preview__image-link" href={post.href}>
+						<img
+							class="writing-preview__card-image"
+							src={post.image}
+							alt=""
+						/>
+					</a>
+
+					<p class="writing-preview__card-excerpt">
+						{post.excerpt}
+					</p>
+				</article>
+			))
+		}
+	</div>
+		</div>
+	)
+}
+
+<style>
+	.writing-preview {
+		padding-block: var(--space-2xl);
+	}
+
+	.writing-preview__featured {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: var(--space-xl);
+		align-items: center;
+	}
+
+	.writing-preview__image-link {
+		display: block;
+		color: inherit;
+	}
+
+	.writing-preview__featured-image,
+	.writing-preview__card-image {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		background: var(--color-border);
+	}
+
+	.writing-preview__featured-title {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl));
+		line-height: 1.1;
+	}
+
+	.writing-preview__featured-title a,
+	.writing-preview__card-title a {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	.writing-preview__featured-excerpt {
+		max-width: 36rem;
+		margin: var(--space-lg) 0 0;
+		font-size: var(--text-lg);
+		line-height: 1.6;
+		color: var(--color-text-muted);
+	}
+
+	.writing-preview__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-lg);
+		margin-top: var(--space-2xl);
+	}
+
+.writing-preview__card {
+	display: flex;
+	flex-direction: column;
+	padding: var(--space-lg);
+	background: var(--color-card-media);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+}
+
+	.writing-preview__card-title {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-heading);
+		font-size: var(--text-xl);
+		line-height: 1.2;
+	}
+
+	.writing-preview__card-excerpt {
+		margin: var(--space-md) 0 0;
+		line-height: 1.6;
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 800px) {
+		.writing-preview__featured {
+			grid-template-columns: 1fr;
+		}
+
+		.writing-preview__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
